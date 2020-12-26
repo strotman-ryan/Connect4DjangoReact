@@ -1,0 +1,44 @@
+
+
+.column {
+  float: left;
+  width: 40px;
+
+}
+
+.header{
+	font-family: "Times New Roman"
+}
+
+.boarder{
+	height:45px;
+	width:45px;
+	background-color:blue;
+}
+
+.piece{
+	height:80%;
+	width:80%; 
+	top: 10%;
+	left: 10%;
+	border-radius: 40px;
+	text-align: center;
+	position: relative;
+}
+
+
+.open-piece{
+	background-color: white;
+}
+
+.player-one-piece{
+	background-color: black;
+}
+
+.player-two-piece{
+	background-color: red;
+}
+
+.board{
+	text-align: center;
+}
