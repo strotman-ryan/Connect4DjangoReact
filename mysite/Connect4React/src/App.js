@@ -11,6 +11,15 @@ const client = new W3CWebSocket('ws://127.0.0.1:8000/' + 'ws/connect4/' + game_i
 class App extends React.Component {
   constructor(){
     super()
+    this.state = {
+      //board
+      //player
+    }
+    //TODO: calculate if really state or not
+    this.setState({
+      'isTurn': true,
+    })
+    this.SendMove = this.SendMove.bind(this)
   }
 
   componentDidMount(){
@@ -19,18 +28,41 @@ class App extends React.Component {
     };
     client.onmessage = (message) => {
       console.log(message);
+      const dataFromServer = JSON.parse(message.data)
+      this.setState({
+        dataFromServer
+      })
     };
+    client.onclose= () => {
+      console.log('Websocket client disconnected');
+    }
   }
 
+  SendMove(id){
+    if(this.state.isTurn){
+      client.send(JSON.stringify({
+        'move': id,
+        'player': this.state.player,
+      }))
+    }else{
+      console.log("Not your turn");
+    }
+
+	}
+
+  //TODO 
   render(){
     return(
     <div className="App">
 		<Header/>
-		<Game/>
+    <Game 
+      board={this.state.board} 
+      isTurn = {this.state.isTurn}
+      player = {this.state.player} 
+      callBack = {this.SendMove}/>
     </div>
     )
   }
-
 }
 
 export default App;
