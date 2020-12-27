@@ -4,13 +4,13 @@ import Column from './Column'
 import GameFooter from './GameFooter'
 
 function Game(props){
-	const columns = this.props.board.map(col => 
+	const columns = props.board.map(col => 
 		{
 		return(
 			<Column 
 				value = {col} 
 				key = {col.id} 
-				clickHandler = {this.props.SendMove} 
+				clickHandler = {props.SendMove} 
 			/>
 		)});
 	return(

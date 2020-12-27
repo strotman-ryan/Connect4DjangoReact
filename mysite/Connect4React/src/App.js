@@ -9,20 +9,16 @@ const game_id = document.getElementById('game_id').textContent;
 const client = new W3CWebSocket('ws://127.0.0.1:8000/' + 'ws/connect4/' + game_id + '/');
 
 class App extends React.Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
-      //board
-      //player
+      isTurn: true,
     }
     //TODO: calculate if really state or not
-    this.setState({
-      'isTurn': true,
-    })
     this.SendMove = this.SendMove.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     client.onopen = () => {
       console.log('Websocket Client Connected');
     };
@@ -30,37 +26,41 @@ class App extends React.Component {
       console.log(message);
       const dataFromServer = JSON.parse(message.data)
       this.setState({
-        dataFromServer
+        board : dataFromServer.board,
+        player : dataFromServer.player
       })
     };
-    client.onclose= () => {
+    client.onclose = () => {
       console.log('Websocket client disconnected');
     }
   }
 
-  SendMove(id){
-    if(this.state.isTurn){
+  SendMove(id) {
+    if (this.state.isTurn) {
       client.send(JSON.stringify({
         'move': id,
         'player': this.state.player,
       }))
-    }else{
+    } else {
       console.log("Not your turn");
     }
-
-	}
+  }
 
   //TODO 
-  render(){
-    return(
-    <div className="App">
-		<Header/>
-    <Game 
-      board={this.state.board} 
-      isTurn = {this.state.isTurn}
-      player = {this.state.player} 
-      callBack = {this.SendMove}/>
-    </div>
+  render() {
+    if (!this.state.board) {
+      console.log("board is null");
+      return <h1>waiting to connect</h1>
+    }
+    console.log(this.state.board)
+    return (
+      <div className="App">
+        <Header />
+        <Game
+          board={this.state.board}
+          player={this.state.player}
+          callBack={this.SendMove} />
+      </div>
     )
   }
 }

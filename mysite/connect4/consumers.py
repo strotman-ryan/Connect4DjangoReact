@@ -1,11 +1,29 @@
 # chat/consumers.py
 import json
 from channels.generic.websocket import WebsocketConsumer
+import json
 
 class Connect4Consumer(WebsocketConsumer):
     def connect(self):
         self.accept()
-        self.send(text_data="It works!")
+        board = [
+            {
+                'id' : 1,
+                'column' : [0,0,0,0,0,0],
+            },
+            {
+                'id' : 2,
+                'column': [0,0,0,0,0,0],
+            }
+        ]
+        player = 1
+        state = {
+            'board': board,
+            'player': player,
+        }
+        state_str = json.dumps(state)
+        print(state_str)
+        self.send(text_data=state_str)
 
     def disconnect(self, close_code):
         pass
