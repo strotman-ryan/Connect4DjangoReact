@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'connect4',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -122,3 +123,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'Connect4React', "build", "static"),  # update the STATICFILES_DIRS
 )
+
+ASGI_APPLICATION = 'mysite.asgi.application'

@@ -14,4 +14,5 @@ def startGame(request):
     return redirect('game', game_id = gameNum)
 
 def game(request, game_id):
-    return render(request, "build/index.html", {'absoluteLink': request.build_absolute_uri()})
+    return render(request, "build/index.html", {'absoluteLink': request.build_absolute_uri(),
+    'game_id': game_id})
