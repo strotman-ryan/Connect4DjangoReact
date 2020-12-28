@@ -14,7 +14,7 @@ function Piece(props){
 			classN = "player-two-piece"
 			break;
 		default:
-			throw "You fucked up"
+			throw "Value Not Handled"
 	}
 	
 	classN += " piece"
