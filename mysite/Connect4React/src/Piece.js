@@ -21,8 +21,8 @@ function Piece(props){
 
 	
 	return(
-		<div className = "boarder">
-			<div className = {classN}/>
+		<div className = "boarder" >
+			<div className = {classN} data-testid = "piece"/>
 		</div>
 			
 		)
