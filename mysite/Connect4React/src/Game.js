@@ -5,7 +5,6 @@ import GameFooter from './GameFooter'
 
 function Game(props){
 	let counter = 0
-	console.log(props.board)
 
 	const columns = props.board.map(col => {
 		counter += 1
@@ -18,7 +17,6 @@ function Game(props){
 			/>
 		)
 	});
-	console.log(columns)
 	return(
 		<div className = "board">
 			{columns}

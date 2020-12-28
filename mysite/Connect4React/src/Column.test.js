@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Column from './Column.js'
 import { unmountComponentAtNode } from "react-dom";
@@ -21,6 +21,7 @@ afterEach(() => {
 test("Column size 4", () =>{
     const newObj = render(<Column value = {[0,0,0,0]}/>)
     expect(newObj.getByTestId('column').childNodes.length).toBe(4);
+
 })
 
 test("Column differnt values", () =>{
