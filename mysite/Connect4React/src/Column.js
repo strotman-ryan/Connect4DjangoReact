@@ -12,6 +12,7 @@ function Column(props) {
 	)
 	return(
 		<div 
+			data-testid = "column"
 			className = "column" 
 			onClick = {() => props.clickHandler(props.colNum)}>
 			{pieces}
