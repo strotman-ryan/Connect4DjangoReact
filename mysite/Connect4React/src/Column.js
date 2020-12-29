@@ -8,8 +8,7 @@ function Column(props) {
 	const pieces = props.value.map(item => {
 		key += 1
 		return <Piece key = {key} value = {item}/>
-	}
-	)
+	})
 	return(
 		<div 
 			data-testid = "column"

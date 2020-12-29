@@ -4,7 +4,7 @@ import Column from './Column'
 import GameFooter from './GameFooter'
 
 function Game(props){
-	let counter = 0
+	let counter = -1
 
 	const columns = props.board.map(col => {
 		counter += 1

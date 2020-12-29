@@ -1,5 +1,6 @@
 from django.db import models
 import jsonfield
+import numpy as np
 # Create your models here.
 
 
@@ -13,17 +14,18 @@ class Connect4GameManager:
     game_state -> an instance of Connect4GameState
     game_id -> a unique id for a game for database lookups
     '''
-
     def __init__(self, game_id):
         self.game_id = game_id
         #try to get game from database
         try:
-            game = Connect4Games.objects.get(game_id = game_id)
+            game = Connect4Games.objects.get(game_id = self.game_id)
             self.game_state = Connect4GameState(game.game_state)
+            self.player = 2
         except Connect4Games.DoesNotExist:
             self.game_state = Connect4GameState()
             game = Connect4Games(game_id = game_id, game_state = self.game_state.__dict__)
             game.save()
+            self.player = 1
 
 
     #returns a Connect4GameStateObject
@@ -39,30 +41,26 @@ class Connect4GameManager:
     #if successful return true
     #if not successful return false
     def TryMove(self, player, column):
-        #TODO add lots of checks
-        self.game_state.board[0][column] = player
+        columnValue = np.array(self.game_state.board[column])
+        index = np.where(columnValue == 0)[0][-1]
+        columnValue[index] = player
+        self.game_state.board[column] = columnValue.tolist()
         self._SaveState()
-        return true
+        return True
 
 
 
 class Connect4GameState:
     board = None
-    isPlayerOneConnected = None
-    isPlayerTwoConnected = None
 
     def __init__(self, game_state = None):
         if game_state == None:
             self.InitlizeGame()
         else:
             self.board = game_state['board']
-            self.isPlayerOneConnected = game_state['isPlayerOneConnected']
-            self.isPlayerTwoConnected = game_state['isPlayerTwoConnected']
 
     def InitlizeGame(self):
-        self.isPlayerOneConnected = True
-        self.isPlayerTwoConnected = False
         #board is 6X7
-        #the first index is row: 0 is top row, 5 if bottom row
-        #the second index is the col: 0 is the left most col: 6 is the right most row
-        self.board = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]
+        #the first index is col: 0 is left most row, 6 if right row
+        #the second index is the row: 0 is the top row: 5 is the bottom row
+        self.board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],]

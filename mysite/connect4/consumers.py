@@ -15,9 +15,12 @@ class Connect4Consumer(WebsocketConsumer):
             self.game_name,
             self.channel_name
         )
+
+        #set up/get game
         game_manager = Connect4GameManager(self.game_id)
+        self.PlayerNum = game_manager.player
         self.accept()
-        self.send(text_data=json.dumps(game_manager.GetGameState()))
+        self._sendToClient(game_manager)
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
@@ -46,4 +49,9 @@ class Connect4Consumer(WebsocketConsumer):
     def move_message(self, event):
         game_manager = Connect4GameManager(self.game_id)
         # Send message to WebSocket
-        self.send(text_data=json.dumps(game_manager.GetGameState()))
+        self._sendToClient(game_manager)
+
+    def _sendToClient(self, gameManager):
+        game_state = gameManager.GetGameState()
+        game_state['player'] = self.PlayerNum
+        self.send(text_data=json.dumps(game_state))

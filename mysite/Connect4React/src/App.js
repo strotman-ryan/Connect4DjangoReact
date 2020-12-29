@@ -8,13 +8,13 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 const game_id = document.getElementById('game_id').textContent;
 const client = new W3CWebSocket('ws://127.0.0.1:8000/' + 'ws/connect4/' + game_id + '/');
 
+const countNonZeros = (accumulator, currentValue) => accumulator  + (currentValue == 0 ? 0 : 1);
+const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
+
 class App extends React.Component {
   constructor() {
     super()
-    this.state = {
-      isTurn: true,
-    }
-    //TODO: calculate if really state or not
+    this.state = {}
     this.SendMove = this.SendMove.bind(this)
   }
 
@@ -36,9 +36,15 @@ class App extends React.Component {
   }
 
   SendMove(id) {
-    if (this.state.isTurn) {
+    console.log(this.state.board)
+    let arrayOfSum = this.state.board.map(arr => arr.reduce(countNonZeros));
+    console.log(arrayOfSum)
+    let sum = arrayOfSum.reduce(sumReducer);
+    console.log(sum)
+    console.log(sum % 2 == this.state.player - 1)
+    if(sum % 2 == this.state.player - 1){
       client.send(JSON.stringify({
-        'move': id,
+        'column': id,
         'player': this.state.player,
       }))
     } else {
@@ -52,14 +58,13 @@ class App extends React.Component {
       console.log("board is null");
       return <h1>waiting to connect</h1>
     }
-    console.log(this.state.board)
     return (
       <div className="App">
         <Header />
         <Game
           board={this.state.board}
           player={this.state.player}
-          callBack={this.SendMove} />
+          SendMove={this.SendMove} />
       </div>
     )
   }
