@@ -18,7 +18,7 @@ function Game(props){
 		)
 	});
 	return(
-		<div className = "board">
+		<div className = "board" data-testid = "game">
 			{columns}
 			<break/>
 			<PlayerTurn player = {props.player}/>
