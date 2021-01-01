@@ -3,13 +3,12 @@ import './App.css';
 import Header from './Header'
 import Game from './Game'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import {IsTurn} from "./Connect4Utility.js"
 
 //TODO: change the hard coded string
 const game_id = document.getElementById('game_id').textContent;
 const client = new W3CWebSocket('ws://127.0.0.1:8000/' + 'ws/connect4/' + game_id + '/');
 
-const countNonZeros = (accumulator, currentValue) => accumulator  + (currentValue == 0 ? 0 : 1);
-const sumReducer = (accumulator, currentValue) => accumulator + currentValue;
 
 class App extends React.Component {
   constructor() {
@@ -36,13 +35,7 @@ class App extends React.Component {
   }
 
   SendMove(id) {
-    console.log(this.state.board)
-    let arrayOfSum = this.state.board.map(arr => arr.reduce(countNonZeros));
-    console.log(arrayOfSum)
-    let sum = arrayOfSum.reduce(sumReducer);
-    console.log(sum)
-    console.log(sum % 2 == this.state.player - 1)
-    if(sum % 2 == this.state.player - 1){
+    if(IsTurn(this.state.board, this.state.player)){
       client.send(JSON.stringify({
         'column': id,
         'player': this.state.player,
