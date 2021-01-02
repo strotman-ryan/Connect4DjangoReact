@@ -52,8 +52,8 @@ class App extends React.Component {
       return <h1>waiting to connect</h1>
     }
     return (
-      <div className="App">
-        <Header />
+      <div className="app">
+        <Header/>
         <Game
           board={this.state.board}
           player={this.state.player}

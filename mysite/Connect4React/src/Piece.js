@@ -13,6 +13,12 @@ function Piece(props){
 		case 2:
 			classN = "player-two-piece"
 			break;
+		case 3:
+			classN = "player-one-piece-possible"
+			break;
+		case 4:
+			classN = "player-two-piece-possible"
+			break;
 		default:
 			throw "Value Not Handled"
 	}

@@ -2,7 +2,7 @@ import React from 'react'
 
 function PlayerTurn(props){
 	return(
-		<h3> It is player {props.player}'s turn</h3>
+		<h3 class="submessage"> It is player {props.player}'s turn</h3>
 	)
 }
 

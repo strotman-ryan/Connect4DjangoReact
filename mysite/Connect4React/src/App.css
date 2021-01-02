@@ -1,13 +1,19 @@
 
+.app{
+	margin: auto;
+	width: 60%;
+	background: linear-gradient(0deg, rgba(26,255,0,1) 0%, rgba(4,50,35,1) 100%)
+}
 
 .column {
-  float: left;
-  width: 40px;
 
 }
 
 .header{
-	font-family: "Times New Roman"
+	font-family: "Times New Roman";
+	text-align: center;
+	margin: 10% auto;
+	width: 100%;
 }
 
 .boarder{
@@ -21,8 +27,7 @@
 	width:80%; 
 	top: 10%;
 	left: 10%;
-	border-radius: 40px;
-	text-align: center;
+	border-radius: 50%;
 	position: relative;
 }
 
@@ -32,13 +37,26 @@
 }
 
 .player-one-piece{
-	background-color: black;
+	background-color: rgb(0,0,0);
+}
+
+.player-one-piece-possible{
+	background-color: rgb(130, 117, 117);
+}
+
+.player-two-piece-possible{
+	background-color: rgb(242, 179, 179);
 }
 
 .player-two-piece{
-	background-color: red;
+	background-color: rgb(255,0,0);
 }
 
 .board{
+	display: flex;
+	justify-content: center;
+}
+
+.submessage{
 	text-align: center;
 }
