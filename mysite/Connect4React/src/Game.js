@@ -1,8 +1,6 @@
 import React from 'react'
-import PlayerTurn from './PlayerTurn'
 import Column from './Column'
-import GameFooter from './GameFooter'
-import {IsTurn} from './Connect4Utility'
+import { IsTurn} from './Connect4Utility'
 
 function Game(props){
 	let counter = -1
@@ -20,11 +18,8 @@ function Game(props){
 		)
 	});
 	return(
-		<div>
-			<div className = "board" data-testid = "game">
-				{columns}			
-	    	</div>
-			<PlayerTurn player = {props.player}/>
+		<div className = "board" data-testid = "game">
+			{columns}			
 		</div>
 	)		
 }

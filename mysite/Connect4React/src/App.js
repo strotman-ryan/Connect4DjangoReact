@@ -3,7 +3,7 @@ import './App.css';
 import Header from './Header'
 import Game from './Game'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import {IsTurn} from "./Connect4Utility.js"
+import {IsTurn, IsWinner} from "./Connect4Utility.js"
 
 //TODO: change the hard coded string
 const game_id = document.getElementById('game_id').textContent;
@@ -51,6 +51,21 @@ class App extends React.Component {
       console.log("board is null");
       return <h1>waiting to connect</h1>
     }
+    const isWinner = IsWinner(this.state.board);
+    let text;
+    if(isWinner === 0){
+      if(IsTurn(this.state.board, this.state.player)){
+        text = "Your Turn";
+      }else{
+        text = "Waiting for opponent...";
+      }
+    }else if(isWinner === this.state.player){
+      text = "You won!!";
+    }else if(isWinner === 3){
+      text = "Tie. Play again?";
+    }else{
+      text = "You lose. Play again?";
+    }
     return (
       <div className="app">
         <Header/>
@@ -58,6 +73,7 @@ class App extends React.Component {
           board={this.state.board}
           player={this.state.player}
           SendMove={this.SendMove} />
+        <p> {text} </p>
       </div>
     )
   }
