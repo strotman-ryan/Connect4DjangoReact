@@ -9,11 +9,18 @@
 
 }
 
+.message{
+	text-align: center;
+	font-size: 150%;
+	padding: 5% 0%;
+}
+
 .header{
 	font-family: "Times New Roman";
 	text-align: center;
 	margin: 10% auto;
 	width: 100%;
+	color:lightgray;
 }
 
 .boarder{

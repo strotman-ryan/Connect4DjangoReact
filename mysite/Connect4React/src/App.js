@@ -4,6 +4,7 @@ import Header from './Header'
 import Game from './Game'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {IsTurn, IsWinner} from "./Connect4Utility.js"
+import { isInaccessible } from '@testing-library/react';
 
 //TODO: change the hard coded string
 const game_id = document.getElementById('game_id').textContent;
@@ -35,7 +36,7 @@ class App extends React.Component {
   }
 
   SendMove(id) {
-    if(IsTurn(this.state.board, this.state.player)){
+    if(IsTurn(this.state.board, this.state.player) && IsWinner(this.state.board) == 0){
       client.send(JSON.stringify({
         'column': id,
         'player': this.state.player,
@@ -73,7 +74,7 @@ class App extends React.Component {
           board={this.state.board}
           player={this.state.player}
           SendMove={this.SendMove} />
-        <p> {text} </p>
+        <p class="message"> {text} </p>
       </div>
     )
   }
