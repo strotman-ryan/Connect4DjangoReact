@@ -8,6 +8,7 @@ class Connect4Consumer(WebsocketConsumer):
     def connect(self):  
         #get game_name     
         self.game_id = self.scope['url_route']['kwargs']['game_id']
+        print(self.game_id)
         self.game_name = 'game_%s' % self.game_id
 
         # Join room group
@@ -43,6 +44,8 @@ class Connect4Consumer(WebsocketConsumer):
                     'type': 'move_message'
                 }
             )
+        else:
+            print("Move was not allowed")
 
 
     # Receive message from other player

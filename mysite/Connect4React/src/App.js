@@ -8,7 +8,9 @@ import { isInaccessible } from '@testing-library/react';
 
 //TODO: change the hard coded string
 const game_id = document.getElementById('game_id').textContent;
-const client = new W3CWebSocket('ws://127.0.0.1:8000/' + 'ws/connect4/' + game_id + '/');
+const game_link = document.getElementById('game_link').textContent; //this should be like http://0.0.0.0:8000/connect/game/2
+const game_link_array = game_link.split('/');
+const client = new W3CWebSocket('ws://'+ window.location.host +'/ws/connect4/' + game_id + '/'); //need just ip address and port
 
 
 class App extends React.Component {

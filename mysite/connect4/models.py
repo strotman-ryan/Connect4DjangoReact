@@ -1,6 +1,7 @@
 from django.db import models
 import jsonfield
 import numpy as np
+from .Connect4Utility import IsTurn
 # Create your models here.
 
 
@@ -41,12 +42,14 @@ class Connect4GameManager:
     #if successful return true
     #if not successful return false
     def TryMove(self, player, column):
-        columnValue = np.array(self.game_state.board[column])
-        index = np.where(columnValue == 0)[0][-1]
-        columnValue[index] = player
-        self.game_state.board[column] = columnValue.tolist()
-        self._SaveState()
-        return True
+        if IsTurn(self.game_state.board, player):
+            columnValue = np.array(self.game_state.board[column])
+            index = np.where(columnValue == 0)[0][-1]
+            columnValue[index] = player
+            self.game_state.board[column] = columnValue.tolist()
+            self._SaveState()
+            return True
+        return False
 
 
 
