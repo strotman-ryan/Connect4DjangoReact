@@ -5,7 +5,7 @@ import random
 from django.urls import reverse
 
 # Create your views here.
-def index(request):
+def home(request):
     return render(request, 'connect4/index.html', {})
 
 def startGame(request):
