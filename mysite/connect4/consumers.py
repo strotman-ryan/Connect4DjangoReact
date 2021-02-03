@@ -2,7 +2,7 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
-from .models import Connect4Games, Connect4GameState, Connect4GameManager
+from .models import Connect4GameState, Connect4GameManager
 
 class Connect4Consumer(WebsocketConsumer):
     def connect(self):  

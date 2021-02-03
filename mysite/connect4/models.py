@@ -2,13 +2,24 @@ from django.db import models
 import jsonfield
 import numpy as np
 from .Connect4Utility import IsTurn
-# Create your models here.
+
+PlayerKeyMaxLength = 50
+
+class Connect4Game(models.Model):
+    def initilizeBoard():
+        #board is 6X7
+        #the first index is col: 0 is left most row, 6 if right row
+        #the second index is the row: 0 is the top row: 5 is the bottom row
+        return [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],]
 
 
-class Connect4Games(models.Model):
-    game_id = models.CharField(max_length=20)
-    game_state = jsonfield.JSONField()
+    game_state = models.JSONField(default =initilizeBoard)
+    player1 = models.CharField(max_length=PlayerKeyMaxLength, default='')
+    player2 = models.CharField(max_length=PlayerKeyMaxLength, default='')
+    player1_connected = models.BooleanField(default=False)
+    player2_connected = models.BooleanField(default=False)
 
+    
 
 class Connect4GameManager:
     '''
