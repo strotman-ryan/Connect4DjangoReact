@@ -82,6 +82,7 @@ def CheckWinner(firstPiece, secondPiece, thirdPiece, forthPiece):
     output: true if it is the players turn
 '''
 def IsTurn(board, player):
+    #TODO: add return false if game is over, win lose of tie
     numberOfPiecesOnBoard = 0
     for col in board:
         for piece in col:

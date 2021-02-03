@@ -19,6 +19,22 @@ class Connect4Game(models.Model):
     player1_connected = models.BooleanField(default=False)
     player2_connected = models.BooleanField(default=False)
 
+    #try to do move in <column> with <player>
+    # player is int 1 or 2
+    # column is int 0-6
+    #if successful return true
+    #if not successful return false
+    def TryMove(self, player, column):
+        if IsTurn(self.game_state, player):
+            columnValue = np.array(self.game_state[column])
+            index = np.where(columnValue == 0)[0][-1] #TODO make sure cant overfill column
+            columnValue[index] = player
+            self.game_state[column] = columnValue.tolist()
+            self.save()
+            return True
+        return False
+
+
     
 
 class Connect4GameManager:
@@ -48,19 +64,6 @@ class Connect4GameManager:
         game = Connect4Games.objects.get(game_id = self.game_id)
         game.game_state = self.game_state.__dict__
         game.save()
-
-    #try to do move in <column> with <player>
-    #if successful return true
-    #if not successful return false
-    def TryMove(self, player, column):
-        if IsTurn(self.game_state.board, player):
-            columnValue = np.array(self.game_state.board[column])
-            index = np.where(columnValue == 0)[0][-1]
-            columnValue[index] = player
-            self.game_state.board[column] = columnValue.tolist()
-            self._SaveState()
-            return True
-        return False
 
 
 
