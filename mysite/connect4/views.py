@@ -8,9 +8,15 @@ from django.urls import reverse
 def home(request):
     return render(request, 'connect4/index.html', {})
 
-def startGame(request):
-    #TODO: have a way in increase the gameNum by one each time
-    gameNum = random.randint(0, 1000) 
+def setup(request):
+    return render(request, 'connect4/setup.html')
+
+def creategame(request):
+    #make sure it is a post
+    #create session id if not already have one
+    #create game in db
+    #Assign P1 or P2 to session Id just made
+    #redirect to game with ID
     return redirect('game', game_id = gameNum)
 
 def game(request, game_id):
