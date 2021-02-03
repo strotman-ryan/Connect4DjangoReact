@@ -2,9 +2,9 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
-from .models import Connect4GameState, Connect4GameManager
 
 class Connect4Consumer(WebsocketConsumer):
+    '''
     def connect(self):  
         #get game_name     
         self.game_id = self.scope['url_route']['kwargs']['game_id']
@@ -58,3 +58,4 @@ class Connect4Consumer(WebsocketConsumer):
         game_state = gameManager.GetGameState()
         game_state['player'] = self.PlayerNum
         self.send(text_data=json.dumps(game_state))
+'''

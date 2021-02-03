@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect
 import random
 from django.urls import reverse
 from .models import Connect4Game
+import random
+from datetime import datetime
+random.seed(datetime.now())
 
 # Create your views here.
 def home(request):
@@ -20,7 +23,7 @@ def creategame(request):
         #create session id if not already have one
         if not session_id_string in request.session:
             print('creating seesion_id')
-            request.session[session_id_string] = 1 #TODO change to random
+            request.session[session_id_string] = random.randint(0,2147483647) #max number allowed in database
         game = Connect4Game()
         if playerNum == '1':
             game.player1 = request.session[session_id_string]
