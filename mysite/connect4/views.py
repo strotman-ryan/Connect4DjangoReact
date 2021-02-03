@@ -12,6 +12,10 @@ def setup(request):
     return render(request, 'connect4/setup.html')
 
 def creategame(request):
+    if request.method == 'POST':
+        print("good")
+    else:
+        #throw 404
     #make sure it is a post
     #create session id if not already have one
     #create game in db
