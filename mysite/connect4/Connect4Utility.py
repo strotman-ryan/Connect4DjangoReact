@@ -56,8 +56,9 @@ def IsWinner(board):
                     board[col + check["colIncrement"][2]][row + check["rowIncrement"][2]])
                 if possibleWinner != 0:
                     return possibleWinner
-    #check if top row is  full
-    isBoardFull = sum([1 if piece == 0 else 0 for piece in board[:][0]]) == 0
+    #check if top row is  full   
+    topRow = [col[0] for col in board]
+    isBoardFull = sum([1 if piece == 0 else 0 for piece in topRow]) == 0
     if isBoardFull:
         return 3
     return 0
@@ -82,9 +83,10 @@ def CheckWinner(firstPiece, secondPiece, thirdPiece, forthPiece):
     output: true if it is the players turn
 '''
 def IsTurn(board, player):
-    #TODO: add return false if game is over, win lose of tie
+    if IsWinner(board) != 0:
+        return False 
     numberOfPiecesOnBoard = 0
     for col in board:
         for piece in col:
-            numberOfPiecesOnBoard += 1 if not(piece == 0) else 0        
+            numberOfPiecesOnBoard += 1 if not(piece == 0) else 0       
     return numberOfPiecesOnBoard % 2 == player - 1

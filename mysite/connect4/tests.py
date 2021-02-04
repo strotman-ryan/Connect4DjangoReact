@@ -13,6 +13,22 @@ class IsWinnerTests(TestCase):
         board = [[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2]]
         self.assertEqual(IsWinner(board), 3)
 
+    def test_IsWinner_NoWinnerAlmostFull(self):
+        board = [[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2],[0,2,2,1,1,1],[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2]]
+        self.assertEqual(IsWinner(board), 0)
+
+    def test_IsWinner_NoWinnerBottomRowFull(self):
+        board = [[0,0,0,0,0,1],[0,0,0,0,0,2],[0,0,0,0,0,1],[0,0,0,0,0,2],[0,0,0,0,0,1],[0,0,0,0,0,2],[0,0,0,0,0,1]]
+        self.assertEqual(IsWinner(board), 0)
+
+    def test_IsWinner_NoWinnerRightColFull(self):
+        board = [[2,1,2,1,2,1],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
+        self.assertEqual(IsWinner(board), 0)
+
+    def test_IsWinner_NoWinner_ModeratlyEmpty(self):
+        board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,2],[0,0,0,0,0,2],[0,0,0,1,1,1],[0,0,0,0,0,0]]
+        self.assertEqual(IsWinner(board), 0)
+
     def test_IsWinner_VerticalPlayer1(self):
         board = [[0,0,1,1,1,1],[0,0,0,0,0,0],[0,0,0,0,0,2],[0,0,0,0,0,2],[0,0,0,0,0,2],[0,0,0,0,0,0],[0,0,0,0,0,0]]
         self.assertEqual(IsWinner(board), 1)
@@ -89,3 +105,24 @@ class IsTurnTests(TestCase):
         board = [[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2],[0,2,2,1,1,1],[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2]]
         player = 2
         self.assertEqual(IsTurn(board, player), True)
+
+
+    def test_IsTurnTiePlayer2(self):
+        board = [[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2]]
+        player = 2
+        self.assertEqual(IsTurn(board, player), False)
+
+    def test_IsTurnTiePlayer1(self):
+        board = [[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2],[2,2,2,1,1,1],[1,1,1,2,2,2]]
+        player = 1
+        self.assertEqual(IsTurn(board, player), False)
+
+    def test_IsTurnLosePlayer2(self):
+        board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,2,1],[0,0,0,0,2,1],[0,0,0,0,2,1],[0,0,0,0,0,1]]
+        player = 2
+        self.assertEqual(IsTurn(board, player), False)
+
+    def test_IsTurnLosePlayer1(self):
+        board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,2,1],[0,0,0,0,2,1],[0,0,0,0,2,1],[0,1,1,1,2,2]]
+        player = 2
+        self.assertEqual(IsTurn(board, player), False)

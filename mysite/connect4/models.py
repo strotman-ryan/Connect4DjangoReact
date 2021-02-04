@@ -26,10 +26,16 @@ class Connect4Game(models.Model):
     #if not successful return false
     def TryMove(self, player, column):
         if IsTurn(self.game_state, player):
-            columnValue = np.array(self.game_state[column])
-            index = np.where(columnValue == 0)[0][-1] #TODO make sure cant overfill column
+            columnValue = self.game_state[column]
+            index = -1
+            for row in columnValue :
+                if row == 0:
+                    index += 1
+            if index == -1:
+                print('column full')
+                return #column full
             columnValue[index] = player
-            self.game_state[column] = columnValue.tolist()
+            self.game_state[column] = columnValue
             self.save()
             return True
         return False

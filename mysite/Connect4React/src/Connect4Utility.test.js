@@ -73,6 +73,30 @@ test("IsTurn empty board player 1", () => {
     expect(IsTurn(board, player)).toBe(true);
 })
 
+test("IsTurn middle column full player 1", () => {
+    const board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[2,1,2,1,2,1],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
+    const player = 1;
+    expect(IsTurn(board, player)).toBe(true);
+})
+
+test("IsTurn middle column full player 2", () => {
+    const board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[2,1,2,1,2,1],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
+    const player = 2;
+    expect(IsTurn(board, player)).toBe(false);
+})
+
+test("IsTurn middle column almost full player 1", () => {
+    const board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,1,2,1,2,1],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
+    const player = 1;
+    expect(IsTurn(board, player)).toBe(false);
+})
+
+test("IsTurn middle column almost full player 2", () => {
+    const board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,1,2,1,2,1],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
+    const player = 2;
+    expect(IsTurn(board, player)).toBe(true);
+})
+
 test("IsTurn empty board player 2", () => {
     const board = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
     const player = 2;
