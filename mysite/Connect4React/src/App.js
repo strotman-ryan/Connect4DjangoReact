@@ -9,7 +9,7 @@ import { isInaccessible } from '@testing-library/react';
 //TODO: change the hard coded string
 const game_id = document.getElementById('game_id').textContent;
 const game_link = document.getElementById('game_link').textContent; //this should be like http://0.0.0.0:8000/game/2
-const client = new W3CWebSocket('ws://'+ window.location.host +'/ws/connect4/' + game_id + '/');
+const client = new W3CWebSocket('ws://'+ window.location.host +'/ws/' + game_id + '/');
 
 
 class App extends React.Component {

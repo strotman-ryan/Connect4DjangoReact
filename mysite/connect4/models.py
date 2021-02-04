@@ -14,8 +14,8 @@ class Connect4Game(models.Model):
 
 
     game_state = models.JSONField(default =initilizeBoard)
-    player1 = models.PositiveIntegerField(blank=True, null=True) #allows to set deautl to None
-    player2 = models.PositiveIntegerField(blank=True, null=True)
+    player1 = models.CharField(max_length = 100, default='')
+    player2 = models.CharField(max_length = 100, default='')
     player1_connected = models.BooleanField(default=False)
     player2_connected = models.BooleanField(default=False)
 

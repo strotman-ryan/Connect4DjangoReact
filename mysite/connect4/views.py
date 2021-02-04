@@ -8,7 +8,7 @@ from datetime import datetime
 
 #Globals
 random.seed(datetime.now())
-session_id_string = 'session_id'
+user_id_string = 'user_id'
 
 # Create your views here.
 def home(request):
@@ -17,19 +17,21 @@ def home(request):
 def setup(request):
     return render(request, 'connect4/setup.html')
 
-def creategame(request):
+def creategame(request):  
+    userId = GetSessionid(request)
     if request.method == 'POST':
         playerNum = request.POST['player'] #this is a string; either '1' or '2'
         if playerNum not in ['1','2']:
             raise Http404("Page not available")      
-        CreateAndAssignSessionId(request)
         game = Connect4Game()
         if playerNum == '1':
-            game.player1 = request.session[session_id_string]
+            game.player1 = userId
         if playerNum == '2':
-            game.player2 = request.session[session_id_string]
-        game.save()  
-        return redirect('game', game_id = game.id)     
+            game.player2 = userId
+        game.save()
+        response = redirect('game', game_id = game.id)
+        SetSessionid(response, userId)
+        return response  
     else:
         raise Http404("Page not available")
     
@@ -40,27 +42,32 @@ if it does not and a player is still null -> assign player to session ID and ret
 else 404
 '''
 def game(request, game_id):
+    userId = GetSessionid(request)
     game = get_object_or_404(Connect4Game, pk=game_id)   
-    if session_id_string in request.session and request.session[session_id_string] in [game.player1, game.player2]:
+    if userId in [game.player1, game.player2]:
         pass #just return the game number
-    elif game.player1 is None:       
-        CreateAndAssignSessionId(request)
-        game.player1 = request.session[session_id_string]
-    elif game.player2 is None:
-        CreateAndAssignSessionId(request)
-        game.player2 = request.session[session_id_string]
+    elif game.player1 == '':       
+        game.player1 = userId
+    elif game.player2 == '':
+        game.player2 = userId
     else:
         #game is already full
         #TODO: allow spectators?
         raise Http404("Page not available")
     game.save()
-    return render(request, "build/index.html", 
+    response = render(request, "build/index.html", 
     {
         'absoluteLink': request.build_absolute_uri(),
         'game_id': game_id
     })
+    SetSessionid(response, userId)
+    return response
 
-def CreateAndAssignSessionId(request):
-    if session_id_string not in request.session:
-        print('creating seesion_id')
-        request.session[session_id_string] = random.randint(0,2147483647) #max number allowed in database
+def SetSessionid(response, value):
+    response.set_cookie(user_id_string,value)
+
+def GetSessionid(request):
+    value = request.COOKIES.get(user_id_string)
+    if value is None:
+        return str(random.randint(0, 2147483647))
+    return value
