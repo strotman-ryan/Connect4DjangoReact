@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
 import Header from './Header'
-import Game from './Game'
+import Board from './Board'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {IsTurn, IsWinner} from "./Connect4Utility.js"
 import { isInaccessible } from '@testing-library/react';
+import Player from './Player'
 
 //TODO: change the hard coded string
 const game_id = document.getElementById('game_id').textContent;
@@ -54,27 +55,27 @@ class App extends React.Component {
       return <h1>waiting to connect</h1>
     }
     const isWinner = IsWinner(this.state.board);
+    
+    if(IsTurn(this.state.board, this.state.player)){
+    }
+    
     let text;
-    if(isWinner === 0){
-      if(IsTurn(this.state.board, this.state.player)){
-        text = "Your Turn";
-      }else{
-        text = "Waiting for opponent...";
-      }
-    }else if(isWinner === this.state.player){
+    if(isWinner === this.state.player){
       text = "You won!!";
     }else if(isWinner === 3){
       text = "Tie. Play again?";
-    }else{
+    }else if (isWinner !== 0){
       text = "You lose. Play again?";
     }
     return (
       <div className="app">
         <Header/>
-        <Game
+        <Player isTurn={IsTurn(this.state.board, 1)} isPlayer1={true} areYouThisPlayer={1 === this.state.player}/>
+        <Board
           board={this.state.board}
           player={this.state.player}
           SendMove={this.SendMove} />
+        <Player isTurn={IsTurn(this.state.board, 2)} isPlayer1={false} areYouThisPlayer={2 === this.state.player}/>
         <p class="message"> {text} </p>
       </div>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 import Column from './Column'
 import { IsTurn} from './Connect4Utility'
 
-function Game(props){
+function Board(props){
 	let counter = -1
 	const columns = props.board.map(col => {
 		counter += 1
@@ -25,4 +25,4 @@ function Game(props){
 }
 
 
-export default Game
+export default Board

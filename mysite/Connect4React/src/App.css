@@ -67,3 +67,27 @@
 .submessage{
 	text-align: center;
 }
+
+/* -------------------------------------------- */
+/*  Player */
+/* -------------------------------------------- */
+.icon-person{
+
+}
+
+.icon-player1{
+	background-color: rgb(0,0,0);
+}
+
+.icon-player2{
+	background-color: rgb(255,0,0);
+}
+
+.player-title{
+
+}
+
+.player{
+
+}
+

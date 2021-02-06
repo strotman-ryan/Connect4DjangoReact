@@ -23,6 +23,18 @@ test('Piece EmptyPiece', async () =>{
     expect(getByTestId("piece")).toHaveClass("open-piece");
 })
 
+test('Piece Possible 1 piece', async () =>{
+    const {getByTestId} = render(<Piece value={3}/>);
+    expect(getByTestId("piece")).toHaveClass("piece");
+    expect(getByTestId("piece")).toHaveClass("player-one-piece-possible");
+})
+
+test('Piece Possible 2 piece', async () =>{
+    const {getByTestId} = render(<Piece value={4}/>);
+    expect(getByTestId("piece")).toHaveClass("piece");
+    expect(getByTestId("piece")).toHaveClass("player-two-piece-possible");
+})
+
 test('Piece ThrowException', () =>{
-    expect(() => render(<Piece value={3}/>)).toThrow("Value Not Handled");
+    expect(() => render(<Piece value={5}/>)).toThrow("Value Not Handled");
 })
