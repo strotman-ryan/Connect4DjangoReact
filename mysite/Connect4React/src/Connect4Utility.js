@@ -95,7 +95,6 @@ export function CheckWinner(firstPiece, secondPiece, thirdPiece, forthPiece){
 export function IsTurn(board, player){
     //TODO No your turn if game is over
     let arrayOfSum = board.map(arr => arr.reduce(countNonZeros, 0)); //0 makes it start at 0
-    console.log(arrayOfSum)
     let sum = arrayOfSum.reduce(sumReducer);
     return sum % 2 == player - 1
 }
