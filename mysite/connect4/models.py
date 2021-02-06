@@ -16,8 +16,8 @@ class Connect4Game(models.Model):
     game_state = models.JSONField(default =initilizeBoard)
     player1 = models.CharField(max_length = 100, default='')
     player2 = models.CharField(max_length = 100, default='')
-    player1_connected = models.BooleanField(default=False)
-    player2_connected = models.BooleanField(default=False)
+    numPlayer1Connections = models.IntegerField(default=0)
+    numPlayer2Connections = models.IntegerField(default=0) 
 
     #try to do move in <column> with <player>
     # player is int 1 or 2

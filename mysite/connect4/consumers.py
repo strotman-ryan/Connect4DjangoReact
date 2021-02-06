@@ -8,11 +8,8 @@ user_id_string = 'user_id'
 
 class Connect4Consumer(WebsocketConsumer):
 
-    def connect(self):  
-        #get game_name     
-        print(self.scope)
+    def connect(self):      
         self.game_id = self.scope['url_route']['kwargs']['game_id']
-        print(self.game_id)
         self.game_name = 'game_%s' % self.game_id #just string formatting
 
         # Join room group
@@ -21,23 +18,42 @@ class Connect4Consumer(WebsocketConsumer):
             self.channel_name
         )
 
+        #TODO set boolean for players connected; but many connection can be made at same time
         #set up/get game
         game = Connect4Game.objects.get(pk = self.game_id)
         if game.player1 == self.scope['cookies'][user_id_string]:
             self.PlayerNum = 1 
+            game.numPlayer1Connections += 1
         elif game.player2 == self.scope['cookies'][user_id_string]:
             self.PlayerNum = 2
+            game.numPlayer2Connections += 1
         else:
             self.send({"close": True}) #closes the connection immediately
-
-        
+        game.save()   
         self.accept()
-        self._sendToClient()
+        self._makeEveryoneUpdate()
 
     def disconnect(self, close_code):
+        game = Connect4Game.objects.get(pk = self.game_id)
+        if self.PlayerNum == 1:
+            game.numPlayer1Connections -= 1
+        elif self.PlayerNum == 2:
+            game.numPlayer2Connections -= 1
+        else:
+            Exception("PlayerNum must be 1 or 2")
+        game.save()
+        self._makeEveryoneUpdate()
         async_to_sync(self.channel_layer.group_discard)(
             self.game_name,
             self.channel_name
+        )
+
+    def _makeEveryoneUpdate(self):
+        async_to_sync(self.channel_layer.group_send)(
+            self.game_name,
+            {
+                'type': 'update_message'
+            }
         )
 
     #recieve message from websocket
@@ -49,15 +65,10 @@ class Connect4Consumer(WebsocketConsumer):
         game = Connect4Game.objects.get(pk = self.game_id) 
         if not game.TryMove(player,column):
             print("Move was not allowed")
-        async_to_sync(self.channel_layer.group_send)(
-            self.game_name,
-            {
-                'type': 'move_message'
-            }
-        )
+        self._makeEveryoneUpdate() 
 
     # Receive message from other player
-    def move_message(self, event):
+    def update_message(self, event):
         self._sendToClient()
 
     def _sendToClient(self):
@@ -65,4 +76,10 @@ class Connect4Consumer(WebsocketConsumer):
         gameToSend = {}
         gameToSend['board'] = game.game_state
         gameToSend['player'] = self.PlayerNum
+        opponentConnected = False
+        if self.PlayerNum == 1:
+            opponentConnected = game.numPlayer2Connections >= 1
+        if self.PlayerNum == 2:
+            opponentConnected = game.numPlayer1Connections >= 1
+        gameToSend['opponentConnected'] = opponentConnected
         self.send(text_data=json.dumps(gameToSend))
