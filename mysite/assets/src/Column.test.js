@@ -1,4 +1,3 @@
-/*
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Column from './Column.js'
@@ -68,4 +67,3 @@ test("Column call back function mulitple times", () =>{
     expect(mockClickFunction).toHaveBeenCalledWith(2);
     expect(mockClickFunction.mock.calls.length).toBe(3);
 })
-*/

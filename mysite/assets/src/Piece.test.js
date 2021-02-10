@@ -1,4 +1,3 @@
-/*
 import Piece from './Piece'
 import React from 'react'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
@@ -39,4 +38,3 @@ test('Piece Possible 2 piece', async () =>{
 test('Piece ThrowException', () =>{
     expect(() => render(<Piece value={5}/>)).toThrow("Value Not Handled");
 })
-*/
