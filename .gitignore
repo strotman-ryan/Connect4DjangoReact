@@ -2,7 +2,7 @@
 /mysite/static/
 
 #npm react files
-/node_modules/
+node_modules/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
