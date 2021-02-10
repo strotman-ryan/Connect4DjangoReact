@@ -55,7 +55,7 @@ def game(request, game_id):
         #TODO: allow spectators?
         raise Http404("Page not available")
     game.save()
-    response = render(request, "build/index.html", 
+    response = render(request, "connect4/game.html", 
     {
         'absoluteLink': request.build_absolute_uri(),
         'game_id': game_id
